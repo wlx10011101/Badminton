@@ -60,7 +60,7 @@ class IntegrateTest(unittest.TestCase):
         print ""
         response = self.system.get_subtotal()
         for i in range(len(response)):
-            print "> " + response[i]
+            print "> " + response[i].encode("gb2312")
             assert response[i] == totalExpect[i], "Expect: " + totalExpect[i] + " , But Get: " + response[i]
 
     def testCase2FromProject(self):
