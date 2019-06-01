@@ -25,7 +25,6 @@ class BookTime(object):
         start = startHour - BADMINTON_OPEN_HOUR
         end = endHour - BADMINTON_OPEN_HOUR
         bookTimeByteList = [NO_BOOKED for _ in range(BADMINTON_URATION_HOURS)]
-        print
         for i in range(start, end):
             bookTimeByteList[i] = BOOKED
         bookTimeStr = "".join(bookTimeByteList)
