@@ -16,7 +16,8 @@ class BadmintonArea(object):
         Constructor
         '''
         self.name = name
-        self.bookRecord = {}
+        self.bookRecordList = []
+        
 
     def book(self, bookMessage):
-        pass
+        if 

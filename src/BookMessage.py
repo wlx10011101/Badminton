@@ -25,6 +25,7 @@ class BookMessage(object):
         self.bookTime = self._format_time(bookDuration)
         self.bookArea = bookArea
         self.isCancle = self._format_cancle(cancle)
+        self.cost = self._calc_cost()
 
     def _format_date(self, dateStr):
         try:
@@ -49,7 +50,7 @@ class BookMessage(object):
         if hourList[1] < hourList[0]:
             self.isValid = False
             return None
-        result = BookTime.coverTimeToByte(hourList[0], hourList[1])
+        result = BookTime.convertTimeToByte(hourList[0], hourList[1])
         if result <= 0:
             self.isValid = False
             return None
@@ -64,3 +65,12 @@ class BookMessage(object):
                 self.isValid = False
         else:
             return False
+
+    def _calc_cost(self):
+        if self.isValid:
+            pass
+        else:
+            return 0
+
+    def _is_weekent(self):
+        pass

@@ -41,6 +41,8 @@ class BookingSystem(object):
     def start_booking(self, message):
         isValid, bookMessageObjct = self._format_message(message)
         if isValid and bookMessageObjct.isValid:
+            areaObject = self.areas.get(bookMessageObjct.bookArea)
+            resultCode = areaObject.book(bookMessageObjct)
             return BOOKING_RESPONSE_DEFINE.get(BOOKING_SUCCESS)
         else:
             return BOOKING_RESPONSE_DEFINE.get(BOOKING_INVALID)
@@ -53,3 +55,19 @@ class BookingSystem(object):
             return True, BookMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA], paramsList[CANCLE])
         else:
             return False, None
+
+    def get_subtotal(self):
+        subTotalMessage = ["收入汇总", "---"]
+        subTotalMoney = 0
+        for item in AREA_NAME_DEFINE:
+            subTotalMessage.append("场地:" + item)
+            areaObject = self.areas.get(item)
+            subTotalMessage.append(areaObject.get_booking_details())
+            subTotalMessage.append("小计: " + areaObject.getSubTotal() + "元")
+            subTotalMessage += areaObject.getSubTotal()
+            if (AREA_NAME_DEFINE.index(item) != (len(AREA_NAME_DEFINE) - 1)):
+                subTotalMessage.append("")
+            else:
+                subTotalMessage.append("---")
+        subTotalMessage.append("总计： " + subTotalMoney + "元")
+        return subTotalMessage

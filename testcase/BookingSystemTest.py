@@ -31,6 +31,15 @@ class Test(unittest.TestCase):
         assert response == "Success: the booking is accepted!",\
             " Fail: " + str(response)
 
+    def testValidMessageButConflict(self):
+        message = "U002 2017-08-01 19:00~22:00 A"
+        response = self.system.start_booking(message)
+        assert response == "Success: the booking is accepted!",\
+            " Fail: " + str(response)
+        response = self.system.start_booking(message)
+        assert response == "Error: the booking being cancelled does not exist!",\
+            " Fail: " + str(response)
+
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']

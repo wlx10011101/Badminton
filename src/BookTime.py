@@ -21,7 +21,7 @@ class BookTime(object):
     '''
 
     @staticmethod
-    def coverTimeToByte(startHour, endHour):
+    def convertTimeToByte(startHour, endHour):
         start = startHour - BADMINTON_OPEN_HOUR
         end = endHour - BADMINTON_OPEN_HOUR
         bookTimeByteList = [NO_BOOKED for _ in range(BADMINTON_URATION_HOURS)]
