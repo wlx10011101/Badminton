@@ -29,7 +29,6 @@ class BookingSystem(object):
         return areas
 
     def start_booking(self, message):
-        print "1111 ", message
         isValid, bookMessageObjct = self._format_message(message)
         if isValid and bookMessageObjct.isValid:
             areaObject = self.areas.get(bookMessageObjct.bookArea)

@@ -4,6 +4,9 @@ Created on 20190602
 
 @author: WLX
 '''
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 import unittest
 
 from testcase.BookingSystemTest import BookingSystemTest

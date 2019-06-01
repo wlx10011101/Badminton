@@ -4,6 +4,9 @@ Created on 20190611
 
 @author: WLX
 '''
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 import unittest
 
 from src.BookingSystem import BookingSystem
@@ -104,7 +107,7 @@ class IntegrateTest(unittest.TestCase):
         print ""
         response = self.system.get_subtotal()
         for i in range(len(response)):
-            print "> " + response[i]
+            print "> " + response[i].encode("gb2312")
             assert response[i] == totalExpect[i], "Expect: " + totalExpect[i] + " , But Get: " + response[i]
 
 if __name__ == "__main__":

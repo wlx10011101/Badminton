@@ -4,6 +4,9 @@ Created on 20190601
 
 @author: linkswei
 '''
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 from src.BookingSystem import BookingSystem
 
 
