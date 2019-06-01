@@ -6,19 +6,9 @@ Created on 20190601
 '''
 from src.BadmintonArea import BadmintonArea
 from src.BookMessage import BookMessage
-
-
-AREA_NAME_DEFINE = ["A", "B", "C", "D"]
-BOOKING_INVALID = USER = 0
-BOOKING_SUCCESS = DATE = 1
-BOOKING_CONFLICT = TIME = 2
-CANCLE_NOT_EXIST = AREA = 3
-BOOKING_MESSAGE_LENGHT = CANCLE = 4
-CANCLE_MESSAGE_LENGHT = 5
-BOOKING_RESPONSE_DEFINE = {BOOKING_INVALID: "Error: the booking is invalid!",
-                           BOOKING_SUCCESS: "Success: the booking is accepted!",
-                           BOOKING_CONFLICT: "Error: the booking conflicts with existing bookings!",
-                           CANCLE_NOT_EXIST: "Error: the booking being cancelled does not exist!"}
+from src.Config import AREA_NAME_DEFINE, BOOKING_RESPONSE_DEFINE,\
+    BOOKING_INVALID, BOOKING_MESSAGE_LENGHT, AREA, USER, DATE,\
+    TIME, CANCLE_MESSAGE_LENGHT, CANCEL
 
 
 class BookingSystem(object):
@@ -39,11 +29,14 @@ class BookingSystem(object):
         return areas
 
     def start_booking(self, message):
+        print "1111 ", message
         isValid, bookMessageObjct = self._format_message(message)
         if isValid and bookMessageObjct.isValid:
             areaObject = self.areas.get(bookMessageObjct.bookArea)
-            resultCode = areaObject.book(bookMessageObjct)
-            return BOOKING_RESPONSE_DEFINE.get(BOOKING_SUCCESS)
+            if bookMessageObjct.isCancle:
+                return areaObject.cancelBook(bookMessageObjct)
+            else:
+                return areaObject.newBook(bookMessageObjct)
         else:
             return BOOKING_RESPONSE_DEFINE.get(BOOKING_INVALID)
 
@@ -52,7 +45,7 @@ class BookingSystem(object):
         if len(paramsList) == BOOKING_MESSAGE_LENGHT and paramsList[AREA] in AREA_NAME_DEFINE:
             return True, BookMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA])
         elif len(paramsList) == CANCLE_MESSAGE_LENGHT and paramsList[AREA] in AREA_NAME_DEFINE:
-            return True, BookMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA], paramsList[CANCLE])
+            return True, BookMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA], paramsList[CANCEL])
         else:
             return False, None
 
@@ -62,12 +55,12 @@ class BookingSystem(object):
         for item in AREA_NAME_DEFINE:
             subTotalMessage.append("场地:" + item)
             areaObject = self.areas.get(item)
-            subTotalMessage.append(areaObject.get_booking_details())
-            subTotalMessage.append("小计: " + areaObject.getSubTotal() + "元")
-            subTotalMessage += areaObject.getSubTotal()
+            subTotalMessage.extend(areaObject.get_booking_detail_list())
+            subTotalMessage.append("小计：" + str(areaObject.get_subtotal()) + " 元")
+            subTotalMoney += areaObject.get_subtotal()
             if (AREA_NAME_DEFINE.index(item) != (len(AREA_NAME_DEFINE) - 1)):
                 subTotalMessage.append("")
             else:
                 subTotalMessage.append("---")
-        subTotalMessage.append("总计： " + subTotalMoney + "元")
+        subTotalMessage.append("总计：" + str(subTotalMoney) + " 元")
         return subTotalMessage

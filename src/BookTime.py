@@ -4,15 +4,10 @@ Created on 20190601
 
 @author: linkswei
 '''
-
+from src.Config import BADMINTON_OPEN_HOUR, NO_BOOKED, BADMINTON_URATION_HOURS,\
+    BOOKED
 
 # 对预定时间做预处理
-# 需求设定羽毛球场从早上9点到晚上10点，且最小单位是为小时
-# 我们将这13个小时是否被预定以01形式表示，即对每次预定时间段由13位的byte来表示
-NO_BOOKED = "0"
-BOOKED = "1"
-BADMINTON_OPEN_HOUR = 9
-BADMINTON_URATION_HOURS = 13
 
 
 class BookTime(object):

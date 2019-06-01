@@ -5,17 +5,12 @@ Created on 20190601
 @author: linkswei
 '''
 from src.BookTime import BookTime, BADMINTON_URATION_HOURS
-Friday = 5
-THIRTY_CNY = 30
-FORTY_CNY = 40
-FIFTY_CNY = 50
-SIXTY_CNY = 60
-EIGHTY_CNY = 80
-
-WEEKDAY_CANCLE_DISCOUNT = 0.5
-WEEKEND_CANCLE_DISCOUNT = 0.25
+from src.Config import THIRTY_CNY, FIFTY_CNY, EIGHTY_CNY, SIXTY_CNY, FORTY_CNY,\
+    WEEKEND_CANCEL_DISCOUNT, WEEKDAY_CANCEL_DISCOUNT, Friday
+from src.Singleton import Singleton
 
 
+@Singleton
 class PriceHandler(object):
     '''
     classdocs
@@ -66,9 +61,9 @@ class PriceHandler(object):
             window <<= 1
         if isCancle:
             if isWeekend:
-                return totalCost * WEEKEND_CANCLE_DISCOUNT
+                return int(totalCost * WEEKEND_CANCEL_DISCOUNT)
             else:
-                return totalCost * WEEKDAY_CANCLE_DISCOUNT
+                return int(totalCost * WEEKDAY_CANCEL_DISCOUNT)
         else:
             return totalCost
 
