@@ -2,10 +2,9 @@
 '''
 Created on 20190601
 
-@author: linkswei
+@author: --
 '''
 import datetime
-from msilib.schema import Condition
 import time
 
 from src.BookingCost import BookingCost
@@ -70,7 +69,7 @@ class BookingMessage(object):
     def __eq__(self, bookMessage):
         attrNames = ["user", "date", "time", "area"]
         isEqual = True
-        if bookMessage.isCancle:
+        if self.isCancle:
             isEqual = False
         for item in attrNames:
             selfAttr = getattr(self, item, None)

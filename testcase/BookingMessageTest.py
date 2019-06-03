@@ -2,9 +2,8 @@
 '''
 Created on 2019年6月1日
 
-@author: linkswei
+@author: --
 '''
-import sys
 import unittest
 
 from src.BookingMessage import BookingMessage

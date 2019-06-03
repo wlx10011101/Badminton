@@ -2,7 +2,7 @@
 '''
 Created on 20190601
 
-@author: linkswei
+@author: --
 '''
 from src.BookingTime import BookingTime
 from src.Config import BOOKING_RESPONSE_DEFINE, BOOKING_CONFLICT,\
@@ -58,7 +58,7 @@ class BadmintonArea(object):
 
     def _remove_item_from_history(self, bookMessage):
         for item in self.bookingHistoryList:
-            if bookMessage == item and item.isCancle is False:
+            if item == bookMessage and item.isCancle is False:
                 self.bookingHistoryList.remove(item)
 
     def get_subtotal(self):

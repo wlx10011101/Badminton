@@ -2,9 +2,8 @@
 '''
 Created on 20190602
 
-@author: WLX
+@author: --
 '''
-import sys
 import unittest
 
 from testcase.BookingCostTest import BookingCostTest
@@ -12,10 +11,6 @@ from testcase.BookingMessageTest import BookingMessageTest
 from testcase.BookingSystemTest import BookingSystemTest
 from testcase.BookingTimeTest import BookingTimeTest
 from testcase.IntegrateTest import IntegrateTest
-
-
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 
 if __name__ == "__main__":

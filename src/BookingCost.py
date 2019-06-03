@@ -18,9 +18,10 @@ class BookingCost(object):
     HOUR_12_TO_18 = BookingTime((12, 18))
     HOUR_18_TO_20 = BookingTime((18, 20))
     HOUR_20_TO_22 = BookingTime((20, 22))
+    HOUR_18_TO_22 = BookingTime((18, 22))
     WEEKDAY_PRICE = [[HOUR_9_TO_12, HOUR_12_TO_18, HOUR_18_TO_20, HOUR_20_TO_22],
                      [THIRTY_CNY, FIFTY_CNY, EIGHTY_CNY, SIXTY_CNY]]
-    WEEKEND_PRICE = [[HOUR_9_TO_12, HOUR_12_TO_18, HOUR_18_TO_20.add(HOUR_20_TO_22)],
+    WEEKEND_PRICE = [[HOUR_9_TO_12, HOUR_12_TO_18, HOUR_18_TO_22],
                      [FORTY_CNY, FIFTY_CNY, SIXTY_CNY]]
 
     def __init__(self, date, bookingTime, isCancel=False):
@@ -42,7 +43,6 @@ class BookingCost(object):
             if bookingTime.contain(window):
                 self.bookingCost += self._get_price_peer_hour(window)
             window <<= 1
-        print "1111", self.bookingCost
 
     def _calc_cost_and_income(self, isCancel):
         if isCancel:
@@ -63,13 +63,9 @@ class BookingCost(object):
             hourDurtion = self.WEEKDAY_PRICE[FIRST]
             priceDefine = self.WEEKDAY_PRICE[SECOND]
         for i in range(len(hourDurtion)):
-            print ">{0:b}".format(hourDurtion[i].time)
-            print ">{0:b}".format(whichHour)
-            print ">{}".format(hourDurtion[i].contain(whichHour))
             if hourDurtion[i].contain(whichHour):
                 return priceDefine[i]
         return 0
 
     def _is_weekend(self, date):
-        print "0000", date.isoweekday, date.isoweekday() > Friday
         return date.isoweekday() > Friday

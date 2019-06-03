@@ -2,11 +2,8 @@
 '''
 Created on 20190611
 
-@author: WLX
+@author: --
 '''
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 import unittest
 
 from src.BookingSystem import BookingSystem
@@ -60,7 +57,7 @@ class IntegrateTest(unittest.TestCase):
         print ""
         response = self.system.get_subtotal()
         for i in range(len(response)):
-            print "> " + response[i].encode("gb2312")
+            print "> " + response[i]
             assert response[i] == totalExpect[i], "Expect: " + totalExpect[i] + " , But Get: " + response[i]
 
     def testCase2FromProject(self):
@@ -107,8 +104,9 @@ class IntegrateTest(unittest.TestCase):
         print ""
         response = self.system.get_subtotal()
         for i in range(len(response)):
-            print "> " + response[i].encode("gb2312")
+            print "> " + response[i]
             assert response[i] == totalExpect[i], "Expect: " + totalExpect[i] + " , But Get: " + response[i]
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -2,7 +2,7 @@
 '''
 Created on 20190601
 
-@author: linkswei
+@author: --
 '''
 import unittest
 from src.BookingSystem import BookingSystem
@@ -83,5 +83,7 @@ class BookingSystemTest(unittest.TestCase):
         response = self.system.start_booking(message2)
         assert response == BOOKING_RESPONSE_DEFINE.get(BOOKING_SUCCESS),\
             " Fail: " + str(response)
+
+
 if __name__ == "__main__":
     unittest.main()

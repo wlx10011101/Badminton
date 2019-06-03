@@ -2,7 +2,7 @@
 '''
 Created on 20190601
 
-@author: linkswei
+@author: --
 '''
 from src.BadmintonArea import BadmintonArea
 from src.BookingMessage import BookingMessage

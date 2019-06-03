@@ -2,7 +2,7 @@
 '''
 Created on 20190601
 
-@author: linkswei
+@author: --
 '''
 from src.Config import BADMINTON_OPEN_HOUR, NO_BOOKED, BADMINTON_URATION_HOURS,\
     BOOKED, BINARY, FIRST, SECOND
@@ -15,6 +15,9 @@ class BookingTime(object):
 
     def __init__(self, hourTuple=None):
         self.time = self.convert_time_to_byte(hourTuple[FIRST], hourTuple[SECOND]) if hourTuple else self.new_booking_time()
+
+    def __eq__(self, bookingTime):
+        return self.time == bookingTime.time
 
     @staticmethod
     def convert_time_to_byte(startHour, endHour):
