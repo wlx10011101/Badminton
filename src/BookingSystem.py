@@ -5,7 +5,7 @@ Created on 20190601
 @author: linkswei
 '''
 from src.BadmintonArea import BadmintonArea
-from src.BookMessage import BookMessage
+from src.BookingMessage import BookingMessage
 from src.Config import AREA_NAME_DEFINE, BOOKING_RESPONSE_DEFINE,\
     BOOKING_INVALID, BOOKING_MESSAGE_LENGHT, AREA, USER, DATE,\
     TIME, CANCLE_MESSAGE_LENGHT, CANCEL
@@ -13,7 +13,7 @@ from src.Config import AREA_NAME_DEFINE, BOOKING_RESPONSE_DEFINE,\
 
 class BookingSystem(object):
     '''
-    classdocs
+    预定系统，对外只提供预定和总计方法，维护场地实例
     '''
 
     def __init__(self):
@@ -29,24 +29,30 @@ class BookingSystem(object):
         return areas
 
     def start_booking(self, message):
-        isValid, bookMessageObjct = self._format_message(message)
-        if isValid and bookMessageObjct.isValid:
-            areaObject = self.areas.get(bookMessageObjct.bookArea)
-            if bookMessageObjct.isCancle:
-                return areaObject.cancelBook(bookMessageObjct)
+        isValid, bookingMessageObjct = self._format_message(message)
+        if isValid and bookingMessageObjct.isValid:
+            areaObject = self.areas.get(bookingMessageObjct.area)
+            if bookingMessageObjct.isCancle:
+                return areaObject.cancel_booking(bookingMessageObjct)
             else:
-                return areaObject.newBook(bookMessageObjct)
+                return areaObject.new_booking(bookingMessageObjct)
         else:
             return BOOKING_RESPONSE_DEFINE.get(BOOKING_INVALID)
 
     def _format_message(self, message):
         paramsList = message.split(" ")
-        if len(paramsList) == BOOKING_MESSAGE_LENGHT and paramsList[AREA] in AREA_NAME_DEFINE:
-            return True, BookMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA])
-        elif len(paramsList) == CANCLE_MESSAGE_LENGHT and paramsList[AREA] in AREA_NAME_DEFINE:
-            return True, BookMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA], paramsList[CANCEL])
+        if self._is_book_message(paramsList):
+            return True, BookingMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA])
+        elif self._is_cancel_message(paramsList):
+            return True, BookingMessage(paramsList[USER], paramsList[DATE], paramsList[TIME], paramsList[AREA], paramsList[CANCEL])
         else:
             return False, None
+
+    def _is_book_message(self, paramsList):
+        return len(paramsList) == BOOKING_MESSAGE_LENGHT and paramsList[AREA] in AREA_NAME_DEFINE
+
+    def _is_cancel_message(self, paramsList):
+        return len(paramsList) == CANCLE_MESSAGE_LENGHT and paramsList[AREA] in AREA_NAME_DEFINE
 
     def get_subtotal(self):
         subTotalMessage = ["收入汇总", "---"]

@@ -5,24 +5,26 @@ Created on 20190602
 @author: WLX
 '''
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 import unittest
 
+from testcase.BookingCostTest import BookingCostTest
+from testcase.BookingMessageTest import BookingMessageTest
 from testcase.BookingSystemTest import BookingSystemTest
-from testcase.BookMessageTest import BookMessageTest
-from testcase.BookTimeTest import BookTimeTest
+from testcase.BookingTimeTest import BookingTimeTest
 from testcase.IntegrateTest import IntegrateTest
-from testcase.PriceHandlerTest import PriceHandlerTest
+
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 
 if __name__ == "__main__":
     suite = unittest.TestSuite()
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(BookingSystemTest))
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(BookMessageTest))
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(BookTimeTest))
+    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(BookingMessageTest))
+    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(BookingTimeTest))
     suite.addTests(unittest.TestLoader().loadTestsFromTestCase(IntegrateTest))
-    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(PriceHandlerTest))
+    suite.addTests(unittest.TestLoader().loadTestsFromTestCase(BookingCostTest))
 
     runner = unittest.TextTestRunner()
     runner.run(suite)

@@ -4,13 +4,14 @@ Created on 20190601
 
 @author: linkswei
 '''
+from src.BookingTime import BookingTime
 from src.Config import BOOKING_RESPONSE_DEFINE, BOOKING_CONFLICT,\
     BOOKING_SUCCESS, CANCEL_NOT_EXIST
 
 
 class BadmintonArea(object):
     '''
-    classdocs
+    场地类，处理单个场地的预定，记录预定消息
     '''
 
     def __init__(self, name):
@@ -18,49 +19,50 @@ class BadmintonArea(object):
         Constructor
         '''
         self.name = name
-        self.hasBookeByDatetime = {}
-        self.bookHistoryList = []
+        self.hasBookedByDatetime = {}
+        self.bookingHistoryList = []
         self.totalIncome = 0
 
-    def newBook(self, bookMessage):
-        if bookMessage.bookDate in self.hasBookeByDatetime:
-            bookedTime = self.hasBookeByDatetime.get(bookMessage.bookDate)
-            if bookedTime & bookMessage.bookTime:
-                return BOOKING_RESPONSE_DEFINE.get(BOOKING_CONFLICT)
-            else:
-                return self._susccess_book(bookMessage, bookedTime)
+    def new_booking(self, bookMessage):
+        areaBookedTime = self.hasBookedByDatetime.get(bookMessage.date, BookingTime())
+        if areaBookedTime.is_conflict(bookMessage.time):
+            return BOOKING_RESPONSE_DEFINE.get(BOOKING_CONFLICT)
         else:
-            return self._susccess_book(bookMessage)
+            self._fresh_booked_time(areaBookedTime, bookMessage)
+            self._fresh_history(bookMessage)
+            self.totalIncome += bookMessage.income
+            return BOOKING_RESPONSE_DEFINE.get(BOOKING_SUCCESS)
 
-    def _susccess_book(self, bookMessage, lastBookTime=None):
-        if lastBookTime:
-            self.hasBookeByDatetime.update({bookMessage.bookDate: lastBookTime | bookMessage.bookTime})
-        else:
-            self.hasBookeByDatetime.update({bookMessage.bookDate: bookMessage.bookTime})
-        self._fresh_history(bookMessage)
-        self.totalIncome += bookMessage.cost
-        return BOOKING_RESPONSE_DEFINE.get(BOOKING_SUCCESS)
-
-    def cancelBook(self, bookMessage):
-        if bookMessage in self.bookHistoryList:
-            bookTime = self.hasBookeByDatetime.get(bookMessage.bookDate)
-            self.hasBookeByDatetime.update({bookMessage.bookDate: bookTime & (~ bookMessage.bookTime)})
+    def cancel_booking(self, bookMessage):
+        areaBookedTime = self.hasBookedByDatetime.get(bookMessage.date, BookingTime())
+        if areaBookedTime.has_booking():
+            self._fresh_booked_time(areaBookedTime, bookMessage, True)
             self._fresh_history(bookMessage, True)
-            self.totalIncome += (bookMessage.cost - bookMessage.noCancelCost)
+            self.totalIncome += bookMessage.income
             return BOOKING_RESPONSE_DEFINE.get(BOOKING_SUCCESS)
         else:
             return BOOKING_RESPONSE_DEFINE.get(CANCEL_NOT_EXIST)
 
+    def _fresh_booked_time(self, areaBookedTime, bookMessage, isCancel=False):
+        if isCancel:
+            newBookedTime = areaBookedTime.cut(bookMessage.time)
+        else:
+            newBookedTime = areaBookedTime.add(bookMessage.time)
+        self.hasBookedByDatetime.update({bookMessage.date: newBookedTime})
+
     def _fresh_history(self, bookMessage, isCancel=False):
         if isCancel:
-            for item in self.bookHistoryList:
-                if bookMessage == item and item.isCancle is False:
-                    self.bookHistoryList.remove(item)
-        self.bookHistoryList.append(bookMessage)
-        self.bookHistoryList = sorted(self.bookHistoryList)
+            self._remove_item_from_history(bookMessage)
+        self.bookingHistoryList.append(bookMessage)
+        self.bookingHistoryList = sorted(self.bookingHistoryList)
+
+    def _remove_item_from_history(self, bookMessage):
+        for item in self.bookingHistoryList:
+            if bookMessage == item and item.isCancle is False:
+                self.bookingHistoryList.remove(item)
 
     def get_subtotal(self):
         return self.totalIncome
 
     def get_booking_detail_list(self):
-        return [str(i) for i in self.bookHistoryList]
+        return [str(i) for i in self.bookingHistoryList]

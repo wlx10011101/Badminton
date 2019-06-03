@@ -7,47 +7,47 @@ Created on 2019年6月1日
 import sys
 import unittest
 
-from src.BookMessage import BookMessage
+from src.BookingMessage import BookingMessage
 
 
-class BookMessageTest(unittest.TestCase):
+class BookingMessageTest(unittest.TestCase):
 
     def testMessageValid1(self):
-        bookMessage = BookMessage('U01101', "2016-06-02", "22:00~22:00", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-02", "22:00~22:00", "A")
         assert bookMessage.isValid == False
 
     def testMessageValid2(self):
-        bookMessage = BookMessage('U01101', "2016-06-31", "22:00~22:00", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-31", "22:00~22:00", "A")
         assert bookMessage.isValid == False
 
     def testMessageValid3(self):
-        bookMessage = BookMessage('U01101', "2016-06-01", "22:00~12:00", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-01", "22:00~12:00", "A")
         assert bookMessage.isValid == False
 
     def testMessageValid4(self):
-        bookMessage = BookMessage('U01101', "2016-06-01", "21:00~22:00", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-01", "21:00~22:00", "A")
         assert bookMessage.isValid == True
 
     def testMessageValid5(self):
-        bookMessage = BookMessage(
+        bookMessage = BookingMessage(
             'U01101', "2016-06-01", "21:00~22:00", "A", "C")
         assert bookMessage.isValid == True
 
     def testMessageValid6(self):
-        bookMessage = BookMessage(
+        bookMessage = BookingMessage(
             'U01101', "2016-06-01", "22:00~22:00", "A", "D")
         assert bookMessage.isValid == False
 
     def testMessageValid7(self):
-        bookMessage = BookMessage('U01101', "2016-06-02", "22:~22:00", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-02", "22:~22:00", "A")
         assert bookMessage.isValid == False
 
     def testMessageValid8(self):
-        bookMessage = BookMessage('U01101', "2016-06-02", "22:00~22:30", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-02", "22:00~22:30", "A")
         assert bookMessage.isValid == False
 
     def testMessageValid9(self):
-        bookMessage = BookMessage('U01101', "2016-06-02", "22:00-22:30", "A")
+        bookMessage = BookingMessage('U01101', "2016-06-02", "22:00-22:30", "A")
         assert bookMessage.isValid == False
 
 
