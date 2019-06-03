@@ -16,7 +16,7 @@ class IntegrateTest(unittest.TestCase):
     def setUp(self):
         self.system = BookingSystem()
 
-    def testCase1FromProject(self):
+    def testcase1_from_project(self):
         print "---------------testCase1FromProject--------------------"
         message1 = "abcdefghijklmnopqrst1234567890"
         message2 = "U001 2016-06-02 22:00~22:00 A"
@@ -60,7 +60,7 @@ class IntegrateTest(unittest.TestCase):
             print "> " + response[i]
             assert response[i] == totalExpect[i], "Expect: " + totalExpect[i] + " , But Get: " + response[i]
 
-    def testCase2FromProject(self):
+    def testcase2_from_project(self):
         print "---------------testCase2FromProject--------------------"
         message1 = "U002 2017-08-01 19:00~22:00 A"
         message2 = "U003 2017-08-01 18:00~20:00 A"
